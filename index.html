@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phiếu bài tập Bài 5 - Năng lượng trong dao động điều hòa</title>
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eef4f8;color:#17202a;font-family:"Times New Roman",serif;font-size:18px}
+.wrap{max-width:1050px;margin:22px auto;padding:0 14px}.card{background:#fff;border-radius:15px;padding:25px 30px;margin:16px 0;box-shadow:0 3px 14px #0002}
+h1{text-align:center;color:#075985;margin:0;font-size:30px}h2{color:#075985;border-bottom:2px solid #d8e8f2;padding-bottom:7px}.sub{text-align:center;font-weight:bold;margin-top:6px}
+.info{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-top:18px}input[type=text]{font:inherit;padding:8px;border:1px solid #94a3b8;border-radius:7px;width:100%}
+.q{padding:14px 0;border-bottom:1px solid #e5e7eb}.q:last-child{border-bottom:0}.qt{font-weight:bold;line-height:1.5}.opt{display:block;padding:6px 10px;margin:4px 0;border-radius:6px}.opt:hover{background:#f0f7fb}
+.tfrow{display:grid;grid-template-columns:1fr 75px 75px;gap:7px;align-items:center;padding:5px 0}.fb{display:none;margin-top:8px;padding:10px 12px;border-left:5px solid;border-radius:4px;line-height:1.45}.ok{display:block;background:#eefbf3;border-color:#198754}.bad{display:block;background:#fff1f0;border-color:#c0392b}
+.note{background:#fff8dd;border-left:5px solid #d39e00;padding:12px;line-height:1.45}.short{max-width:240px;margin-top:8px}
+button{display:block;margin:25px auto 8px;border:0;border-radius:10px;background:#0866a3;color:white;padding:13px 34px;font:bold 18px Arial;cursor:pointer}button:hover{background:#064e7c}
+#score{text-align:center;font-size:23px;font-weight:bold;margin-top:15px}.small{font-size:16px;color:#536471}
+@media(max-width:650px){.card{padding:18px}.info{grid-template-columns:1fr}.tfrow{grid-template-columns:1fr 60px 60px}body{font-size:17px}}
+</style>
+</head>
+<body><div class="wrap">
+<section class="card"><h1>PHIẾU BÀI TẬP – BÀI 5</h1><div class="sub">ĐỘNG NĂNG. THẾ NĂNG. SỰ CHUYỂN HÓA NĂNG LƯỢNG TRONG DAO ĐỘNG ĐIỀU HÒA</div>
+<div class="info"><label>Họ và tên: <input id="name" type="text"></label><label>Lớp: <input id="class" type="text"></label></div>
+<p class="note"><b>Hướng dẫn:</b> Phiếu gồm 3 dạng câu hỏi. Sau khi nhấn <b>Nộp bài</b>, hệ thống tự chấm và hiện hướng dẫn ngay dưới từng câu. Công thức hiển thị bằng MathJax.</p></section>
+<section class="card"><h2>PHẦN I. TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN</h2><div id="mcq"></div></section>
+<section class="card"><h2>PHẦN II. TRẮC NGHIỆM ĐÚNG/SAI</h2><div id="tf"></div></section>
+<section class="card"><h2>PHẦN III. TRẮC NGHIỆM TRẢ LỜI NGẮN</h2><p class="small">Chỉ nhập giá trị số. Có thể dùng dấu chấm hoặc dấu phẩy thập phân.</p><div id="short"></div>
+<button onclick="submitQuiz()">NỘP BÀI</button><div id="score"></div></section>
+</div>
+<script>
+const M=[
+["Khi vật dao động điều hòa chuyển động từ vị trí biên về vị trí cân bằng thì",["Động năng giảm, thế năng tăng.","Động năng tăng, thế năng giảm.","Động năng và thế năng cùng tăng.","Động năng và thế năng cùng giảm."],1,"Từ biên về vị trí cân bằng, \\(|x|\\) giảm và tốc độ tăng. Vì \\(W_t=\\frac12m\\omega^2x^2\\), thế năng giảm; cơ năng bảo toàn nên động năng tăng."],
+["Tại vị trí cân bằng của vật dao động điều hòa",["Động năng bằng 0.","Thế năng cực đại.","Động năng cực đại.","Động năng bằng thế năng."],2,"Tại \\(x=0\\), \\(W_t=0\\), tốc độ cực đại nên \\(W_đ=W\\) và đạt cực đại."],
+["Cơ năng của vật dao động điều hòa có khối lượng \\(m\\), tần số góc \\(\\omega\\), biên độ \\(A\\) là",["\\(W=\\frac12m\\omega A^2\\)","\\(W=\\frac12m\\omega^2A^2\\)","\\(W=m\\omega^2A^2\\)","\\(W=\\frac12m\\omega^2A\\)"],1,"Cơ năng: \\(W=\\frac12m\\omega^2A^2\\), không đổi nếu bỏ qua lực cản."],
+["Khi vật có li độ \\(x=A/2\\), tỉ số \\(W_t/W\\) bằng",["1/2","1/4","3/4","1"],1,"\\(\\frac{W_t}{W}=\\frac{x^2}{A^2}=\\frac14\\)."],
+["Khi động năng bằng thế năng, độ lớn li độ của vật là",["\\(A/2\\)","\\(A/\\sqrt2\\)","\\(A\\sqrt3/2\\)","\\(A\\)"],1,"\\(W_đ=W_t=W/2\\Rightarrow x^2/A^2=1/2\\Rightarrow |x|=A/\\sqrt2\\)."],
+["Động năng và thế năng của vật dao động điều hòa biến thiên tuần hoàn theo thời gian với chu kì",["\\(T/4\\)","\\(T/2\\)","\\(T\\)","\\(2T\\)"],1,"Vì năng lượng phụ thuộc bình phương sin/cos nên chu kì biến thiên là \\(T/2\\)."]
+];
+const T=[
+["Một vật dao động điều hòa có cơ năng \\(W\\). Xét các phát biểu:",[
+["Tại vị trí cân bằng, động năng của vật bằng \\(W\\).",true,"Tại \\(x=0\\), thế năng bằng 0 nên \\(W_đ=W\\)."],
+["Tại vị trí biên, thế năng của vật bằng 0.",false,"Tại biên, vận tốc bằng 0 nên \\(W_đ=0\\), còn \\(W_t=W\\)."],
+["Khi \\(|x|=A/\\sqrt2\\) thì động năng bằng thế năng.",true,"Khi đó \\(W_t/W=x^2/A^2=1/2\\), nên \\(W_t=W_đ=W/2\\)."],
+["Khi vật đi từ vị trí cân bằng ra biên, động năng giảm và thế năng tăng.",true,"Khi đi ra biên, tốc độ giảm còn \\(|x|\\) tăng."]]],
+["Một con lắc lò xo có \\(k=100\\,N/m\\), \\(A=0,10\\,m\\). Bỏ qua lực cản.",[
+["Cơ năng của con lắc bằng 0,50 J.",true,"\\(W=\\frac12kA^2=0,50\\,J\\)."],
+["Khi \\(x=0,06\\,m\\), thế năng bằng 0,18 J.",true,"\\(W_t=\\frac12kx^2=0,18\\,J\\)."],
+["Khi \\(x=0,06\\,m\\), động năng bằng 0,32 J.",true,"\\(W_đ=W-W_t=0,50-0,18=0,32\\,J\\)."],
+["Khi động năng bằng 3 lần thế năng thì \\(|x|=0,05\\,m\\).",true,"\\(W_đ=3W_t\\Rightarrow W=4W_t\\Rightarrow |x|=A/2=0,05\\,m\\)."]]]
+];
+const S=[
+["Một con lắc lò xo có \\(k=80\\,N/m\\), biên độ \\(A=5,0\\,cm\\). Tính cơ năng theo J.",0.10,.005,"Đổi \\(A=0,050\\,m\\). \\(W=\\frac12kA^2=0,10\\,J\\)."],
+["Tại một thời điểm, thế năng bằng 36% cơ năng. Xác định \\(|x|/A\\).",0.60,.005,"\\(W_t/W=x^2/A^2=0,36\\Rightarrow |x|/A=0,60\\)."],
+["Một vật có cơ năng 0,40 J. Tại vị trí thế năng bằng 0,10 J, động năng bằng bao nhiêu J?",0.30,.005,"\\(W_đ=W-W_t=0,30\\,J\\)."],
+["Vật dao động với \\(A=8,0\\,cm\\). Khi động năng bằng thế năng, \\(|x|\\) bằng bao nhiêu cm? Làm tròn đến hàng phần trăm.",5.66,.015,"\\(|x|=A/\\sqrt2=8/\\sqrt2\\approx5,66\\,cm\\)."]
+];
+function render(){
+ let h="";M.forEach((q,i)=>{h+=`<div class="q"><div class="qt">Câu ${i+1}. ${q[0]}</div>`+q[1].map((x,j)=>`<label class="opt"><input type="radio" name="m${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${x}</label>`).join("")+`<div id="mf${i}" class="fb"></div></div>`});document.getElementById("mcq").innerHTML=h;
+ h="";T.forEach((q,i)=>{h+=`<div class="q"><div class="qt">Câu ${i+7}. ${q[0]}</div>`;q[1].forEach((x,j)=>{h+=`<div><div class="tfrow"><span>${"abcd"[j]}) ${x[0]}</span><label><input type="radio" name="t${i}_${j}" value="1"> Đúng</label><label><input type="radio" name="t${i}_${j}" value="0"> Sai</label></div><div id="tf${i}_${j}" class="fb"></div></div>`});h+="</div>"});document.getElementById("tf").innerHTML=h;
+ h="";S.forEach((q,i)=>{h+=`<div class="q"><div class="qt">Câu ${i+9}. ${q[0]}</div><input id="s${i}" class="short" type="text" placeholder="Nhập kết quả"><div id="sf${i}" class="fb"></div></div>`});document.getElementById("short").innerHTML=h;
+}
+function show(id,ok,msg){let e=document.getElementById(id);e.className="fb "+(ok?"ok":"bad");e.innerHTML=(ok?"✓ Đúng. ":"✗ Chưa đúng. ")+msg}
+function number(v){return parseFloat((v||"").replace(",","."))}
+function submitQuiz(){
+ let n=0,total=18;
+ M.forEach((q,i)=>{let z=document.querySelector(`input[name=m${i}]:checked`),ok=z&&+z.value===q[2];if(ok)n++;show("mf"+i,ok,q[3])});
+ T.forEach((q,i)=>q[1].forEach((x,j)=>{let z=document.querySelector(`input[name=t${i}_${j}]:checked`),ok=z&&((z.value==="1")===x[1]);if(ok)n++;show(`tf${i}_${j}`,ok,x[2])}));
+ S.forEach((q,i)=>{let v=number(document.getElementById("s"+i).value),ok=Number.isFinite(v)&&Math.abs(v-q[1])<=q[2];if(ok)n++;show("sf"+i,ok,q[3])});
+ let pct=Math.round(n/total*100),name=document.getElementById("name").value.trim();
+ document.getElementById("score").innerHTML=(name?name+": ":"")+"Kết quả "+n+"/"+total+" lệnh hỏi đúng ("+pct+"%).";
+ if(window.MathJax?.typesetPromise)MathJax.typesetPromise();
+}
+render();
+</script></body></html>
